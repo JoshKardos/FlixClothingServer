@@ -16,15 +16,14 @@ app
 
 
 app.post('/api/form', (req, res) => {
-  const { adminEmail, senderName, downloadUrl } = req.body 
+  const { designId } = req.body 
   nodemailer.createTestAccount((err, account) => {
     const htmlEmail = `
       <div style="border: 1px solid grey; padding:12px;">
-        <h3 style="text-align:center; text-decoration:underline">${senderName} just submitted a timesheet</h3>
+        <h1 style="text-align:center; text-decoration:underline">Flix Clothing</h3>
+        <h3 style="text-align:center; text-decoration:underline">A design was just reported by a user</h3>
         <div style="text-align: center;">
-          <button style="height:60px; width:200px; margin: 0 auto;">
-            <a style="text-decoration:none;" href=${downloadUrl}>Click to download</p>
-          </button>
+          <p>Design Id: ${designId} <p>
         </div>
       </div>
     `
@@ -33,7 +32,7 @@ app.post('/api/form', (req, res) => {
         apiKey: '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'
       })
     )
-    const toEmail = process.env.NODE_ENV === 'production' ? adminEmail : 'joshkardos@gmail.com'
+    const toEmail = 'joshkardos@gmail.com'
     const mailOptions = {
       from: 'JTK Staffing <joshkardos@gmail.com>',
       to: toEmail,
