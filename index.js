@@ -34,7 +34,7 @@ app.post('/api/form', (req, res) => {
     )
     const toEmail = 'joshkardos@gmail.com'
     const mailOptions = {
-      from: 'JTK Staffing <joshkardos@gmail.com>',
+      from: 'Flix Clothing <joshkardos@gmail.com>',
       to: toEmail,
       replyTo: 'noreply@gmail.com',
       subject: 'Timesheet submitted',
