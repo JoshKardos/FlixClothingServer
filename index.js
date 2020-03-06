@@ -1,9 +1,9 @@
 const express = require('express')
 const path = require('path')
-const stripe = require('stripe')('sk_test_c8WpTVTZOQnrqvqWXJJLaTeQ00whht62Tb')
 const bodyParser = require()
 const PORT = process.env.PORT || 5000
-const a = express()
+const app = express()
+
 app
   .use(bodyParser.json())
   .use(bodyParser.urlencoded({
@@ -18,6 +18,9 @@ app
 app.post('/ephemeral_keys', (req, res) => {
   const customerId = req.body.customer_id
   const api_version = req.body.api_version
+  const apiKey = req.body.apiKey
+  const stripe = require('stripe')(apiKey)
+
   stripe.ephemeralKeys.create(
     {customer : customerId},
     {stripe_version: api_version}
@@ -31,7 +34,10 @@ app.post('/ephemeral_keys', (req, res) => {
 app.post('/charge', (req, res) => {
   const customerId = req.body.customer_id
   const api_version = req.body.api_version
-  stripe.charges.create({
+  const apiKey = req.body.apiKey
+  const stripe = require('stripe')(apiKey)
+
+  stripe.paymentIntents.create({
     customer: customer,
     amount: amount,
     currency: currency
@@ -50,6 +56,8 @@ app.post('/create_customer', (req, res) => {
   const email = req.body.email
   const name = req.body.name
   const phone = req.body.phone
+  const apiKey = req.body.apiKey
+  const stripe = require('stripe')(apiKey)
 
   stripe.customers.create({
     email: email,
