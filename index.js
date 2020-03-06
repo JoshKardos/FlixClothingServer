@@ -38,7 +38,6 @@ app.post('/api/form', (req, res) => {
       to: toEmail,
       replyTo: 'noreply@gmail.com',
       subject: 'Timesheet submitted',
-      text: adminEmail,
       html: htmlEmail
     }
     transporter.sendMail(mailOptions, (err, info) => {
