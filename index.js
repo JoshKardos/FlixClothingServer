@@ -37,12 +37,13 @@ app.post('/api/form', (req, res) => {
       from: 'Flix Clothing <joshkardos@gmail.com>',
       to: toEmail,
       replyTo: 'noreply@gmail.com',
-      subject: 'Timesheet submitted',
+      subject: 'Reported design',
       html: htmlEmail
     }
     transporter.sendMail(mailOptions, (err, info) => {
       if (err) return console.log(err)
       console.log('Email sent')
+      res.status(200).send()
     })
   })
 })
