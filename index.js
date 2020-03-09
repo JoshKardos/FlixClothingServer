@@ -5,7 +5,6 @@ const nodemailerSendgrid = require('nodemailer-sendgrid');
 const path = require('path')
 const PORT = process.env.PORT || 5000
 const app = express()
-const ApiKeys = require('./ApiKeys')
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -18,7 +17,7 @@ app
 
 
 app.post('/api/form', (req, res) => {
-  const { designId } = req.body 
+  const { designId, apiKey } = req.body 
   nodemailer.createTestAccount((err, account) => {
     const htmlEmail = `
       <div style="border: 1px solid grey; padding:12px;">
@@ -31,7 +30,7 @@ app.post('/api/form', (req, res) => {
     `
     const transporter = nodemailer.createTransport(
       nodemailerSendgrid({
-        apiKey: ApiKeys.sendGridKey
+        apiKey: apiKey
       })
     )
     const toEmail = 'joshkardos@gmail.com'
