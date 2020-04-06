@@ -1,3 +1,5 @@
 # Flix Clothing Server
 
-Everything besides Stripe 
+
+- Everything besides Stripe 
+
