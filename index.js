@@ -52,15 +52,15 @@ app.post('/api/form', (req, res) => {
   })
 })
 
-app.post('/fullsend/report/yak', (req, res) => {
-  const { designId, apiKey } = req.body 
+app.post('/fullsend/report/reply', (req, res) => {
+  const { replyId, apiKey } = req.body 
   nodemailer.createTestAccount((err, account) => {
     const htmlEmail = `
       <div style="border: 1px solid grey; padding:12px;">
-        <h1 style="text-align:center; text-decoration:underline">Flix Clothing</h3>
-        <h3 style="text-align:center; text-decoration:underline">A design was just reported by a user</h3>
+        <h1 style="text-align:center; text-decoration:underline">Full Send</h3>
+        <h3 style="text-align:center; text-decoration:underline">A reply was just reported by a user</h3>
         <div style="text-align: center;">
-          <p>Design Id: ${designId} <p>
+          <p>Reply Id: ${replyId} <p>
         </div>
       </div>
     `
@@ -71,10 +71,46 @@ app.post('/fullsend/report/yak', (req, res) => {
     )
     const toEmail = 'joshkardos@gmail.com'
     const mailOptions = {
-      from: 'Flix Clothing <joshkardos@gmail.com>',
+      from: 'Full Send <joshkardos@gmail.com>',
       to: toEmail,
       replyTo: 'noreply@gmail.com',
-      subject: 'Reported design',
+      subject: 'Reported reply',
+      html: htmlEmail
+    }
+    transporter.sendMail(mailOptions, (err, info) => {
+      if (err) {
+        res.status(500).end()
+        return
+      }
+      console.log('Email sent')
+      res.status(200).send()
+    })
+  })
+})
+
+app.post('/fullsend/report/yak', (req, res) => {
+  const { yakId, apiKey } = req.body 
+  nodemailer.createTestAccount((err, account) => {
+    const htmlEmail = `
+      <div style="border: 1px solid grey; padding:12px;">
+        <h1 style="text-align:center; text-decoration:underline">Full Send</h3>
+        <h3 style="text-align:center; text-decoration:underline">A yak was just reported by a user</h3>
+        <div style="text-align: center;">
+          <p>Reply Id: ${yakId} <p>
+        </div>
+      </div>
+    `
+    const transporter = nodemailer.createTransport(
+      nodemailerSendgrid({
+        apiKey: apiKey
+      })
+    )
+    const toEmail = 'joshkardos@gmail.com'
+    const mailOptions = {
+      from: 'Full Send <joshkardos@gmail.com>',
+      to: toEmail,
+      replyTo: 'noreply@gmail.com',
+      subject: 'Reported yak',
       html: htmlEmail
     }
     transporter.sendMail(mailOptions, (err, info) => {
