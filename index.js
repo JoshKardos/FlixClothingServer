@@ -96,7 +96,7 @@ app.post('/fullsend/report/yak', (req, res) => {
         <h1 style="text-align:center; text-decoration:underline">Full Send</h3>
         <h3 style="text-align:center; text-decoration:underline">A yak was just reported by a user</h3>
         <div style="text-align: center;">
-          <p>Reply Id: ${yakId} <p>
+          <p>Yak Id: ${yakId} <p>
         </div>
       </div>
     `
@@ -111,6 +111,42 @@ app.post('/fullsend/report/yak', (req, res) => {
       to: toEmail,
       replyTo: 'noreply@gmail.com',
       subject: 'Reported yak',
+      html: htmlEmail
+    }
+    transporter.sendMail(mailOptions, (err, info) => {
+      if (err) {
+        res.status(500).end()
+        return
+      }
+      console.log('Email sent')
+      res.status(200).send()
+    })
+  })
+})
+  
+app.post('/fullsend/report/video', (req, res) => {
+  const { videoId, apiKey } = req.body 
+  nodemailer.createTestAccount((err, account) => {
+    const htmlEmail = `
+      <div style="border: 1px solid grey; padding:12px;">
+        <h1 style="text-align:center; text-decoration:underline">Full Send</h3>
+        <h3 style="text-align:center; text-decoration:underline">A video was just reported by a user</h3>
+        <div style="text-align: center;">
+          <p>Video Id: ${videoId} <p>
+        </div>
+      </div>
+    `
+    const transporter = nodemailer.createTransport(
+      nodemailerSendgrid({
+        apiKey: apiKey
+      })
+    )
+    const toEmail = 'joshkardos@gmail.com'
+    const mailOptions = {
+      from: 'Full Send <joshkardos@gmail.com>',
+      to: toEmail,
+      replyTo: 'noreply@gmail.com',
+      subject: 'Reported video',
       html: htmlEmail
     }
     transporter.sendMail(mailOptions, (err, info) => {
